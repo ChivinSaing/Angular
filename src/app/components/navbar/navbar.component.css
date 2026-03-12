@@ -1,0 +1,13 @@
+.nav-link {
+  color: rgb(51 65 85);
+  transition: color 150ms ease;
+}
+
+.nav-link:hover {
+  color: rgb(15 23 42);
+}
+
+.is-active {
+  color: rgb(5 150 105);
+}
+

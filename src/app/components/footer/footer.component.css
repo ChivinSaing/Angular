@@ -1,0 +1,30 @@
+.footer-link {
+  display: block;
+  color: rgb(226 232 240);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.footer-text {
+  color: rgb(226 232 240);
+}
+
+.social-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid rgb(187 247 208);
+  background: transparent;
+  color: rgb(240 253 250);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.social-circle:hover {
+  background: rgb(34 197 94);
+  border-color: rgb(22 163 74);
+}
+

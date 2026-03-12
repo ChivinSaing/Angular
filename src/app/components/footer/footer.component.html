@@ -1,0 +1,39 @@
+<footer class="border-t border-slate-200 bg-teal-700 text-sm text-slate-50">
+  <div class="mx-auto max-w-6xl px-4 py-8 grid gap-6 md:grid-cols-4">
+    <div>
+      <h2 class="text-base font-semibold mb-3">Quick Links</h2>
+      <nav class="space-y-1">
+        <a routerLink="/home" class="footer-link">Home</a>
+        <a routerLink="/about" class="footer-link">About</a>
+        <a routerLink="/drinks" class="footer-link">Drinks</a>
+        <a routerLink="/contact" class="footer-link">Contact</a>
+      </nav>
+    </div>
+
+    <div>
+      <h2 class="text-base font-semibold mb-3">Categories</h2>
+      <p class="footer-text">Soft Drinks · Juices · Coffee · Tea</p>
+    </div>
+
+    <div>
+      <h2 class="text-base font-semibold mb-3">Customer Service</h2>
+      <p class="footer-text">FAQ · Orders · Shipping · Returns</p>
+    </div>
+
+    <div>
+      <h2 class="text-base font-semibold mb-3">Follow Us</h2>
+      <div class="mt-2 flex gap-3">
+        <button class="social-circle" aria-label="Facebook">f</button>
+        <button class="social-circle" aria-label="Twitter">t</button>
+        <button class="social-circle" aria-label="Instagram">i</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-teal-800">
+    <div class="mx-auto max-w-6xl px-4 py-3 text-xs text-slate-100/80">
+      © {{ currentYear }} Beverage World. All rights reserved.
+    </div>
+  </div>
+</footer>
+
