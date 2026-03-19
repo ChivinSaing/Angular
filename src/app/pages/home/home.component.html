@@ -1,13 +1,6 @@
-<section class="space-y-3">
-  <h1 class="text-3xl font-semibold tracking-tight">Home</h1>
-  <p class="text-slate-600">
-    Welcome to Beverage World. Use the navigation to explore the site.
-  </p>
-</section>
-
-<section class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-  <app-card-box></app-card-box>
-  <app-card-box></app-card-box>
-  <app-card-box></app-card-box>
+<section class="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+  @for (item of items; track item.title) {
+    <app-card-box [item]="item"></app-card-box>
+  }
 </section>
 

@@ -1,6 +1,12 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+
+export type CardBoxItem = {
+  title: string;
+  description: string;
+  imageUrl?: string;
+};
 
 @Component({
   selector: 'app-card-box',
@@ -11,4 +17,6 @@ import {MatCardModule} from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CardBox {}
+export class CardBox {
+  @Input({ required: true }) item!: CardBoxItem;
+}
