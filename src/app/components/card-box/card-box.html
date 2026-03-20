@@ -1,18 +1,30 @@
-<mat-card class="example-card" appearance="outlined">
-    <img
-      mat-card-image
-      [src]="item.imageUrl ?? 'https://material.angular.dev/assets/img/examples/shiba2.jpg'"
-      [alt]="item.title"
+<div class="product-card">
+  <div class="product-card__media">
+    <img class="product-card__img" [src]="item.imageUrl" [alt]="item.name" />
+
+    <p-tag
+      class="product-card__tag"
+      [value]="item.inventoryStatus"
+      [severity]="getSeverity(item.inventoryStatus)"
     />
-    <div class="p-2">
-      <h3 class="mb-1 text-base font-semibold">{{ item.title }}</h3>
-      <p class="text-sm text-slate-600">
-        {{ item.description }}
-      </p>
-    </div>
-    <div>
-      <button matButton>LIKE</button>
-      <button matButton>SHARE</button>
-    </div>
-  </mat-card>
+  </div>
+
+  <div class="product-card__name">{{ item.name }}</div>
+
+  <div class="product-card__footer">
+    <span class="product-card__price">${{ item.price }}</span>
+
+    <span class="product-card__actions">
+      <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" aria-label="Add to favorites" />
+      <p-button
+        icon="pi pi-shopping-cart"
+        severity="secondary"
+        [outlined]="true"
+        aria-label="Add to cart"
+      />
+    </span>
+  </div>
+
+  <button type="button" class="product-card__order-btn">Add to Order</button>
+</div>
   

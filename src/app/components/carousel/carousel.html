@@ -1,0 +1,49 @@
+<div class="carousel-wrap">
+  <p-carousel
+    [value]="products"
+    [numVisible]="numVisible()"
+    [numScroll]="numVisible()"
+    [circular]="circular()"
+    [responsiveOptions]="responsiveOptions"
+    [autoplayInterval]="autoplayInterval()"
+    [showNavigators]="true"
+    [showIndicators]="true"
+  >
+    <ng-template let-product pTemplate="item">
+      <div class="product-card">
+        <div class="product-card__media">
+          <img
+            class="product-card__img w-full"
+            [src]="productImage(product)"
+            [alt]="product.name"
+          />
+          <p-tag
+            class="product-card__tag"
+            [value]="product.inventoryStatus"
+            [severity]="getSeverity(product.inventoryStatus)"
+          />
+        </div>
+
+        <div class="product-card__name">{{ product.name }}</div>
+
+        <div class="product-card__footer">
+          <span class="product-card__price">${{ product.price }}</span>
+          <span class="product-card__actions">
+            <p-button
+              icon="pi pi-heart"
+              severity="secondary"
+              [outlined]="true"
+              aria-label="Add to favorites"
+            />
+            <p-button
+              icon="pi pi-shopping-cart"
+              severity="secondary"
+              [outlined]="true"
+              aria-label="Add to cart"
+            />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

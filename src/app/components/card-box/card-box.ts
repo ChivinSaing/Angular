@@ -1,22 +1,34 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { Component, Input } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 export type CardBoxItem = {
-  title: string;
-  description: string;
-  imageUrl?: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+  inventoryStatus: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK';
 };
 
 @Component({
   selector: 'app-card-box',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
+  imports: [ButtonModule, TagModule],
   templateUrl: './card-box.html',
   styleUrl: './card-box.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class CardBox {
   @Input({ required: true }) item!: CardBoxItem;
+
+  getSeverity(status: CardBoxItem['inventoryStatus']): 'success' | 'warn' | 'danger' | 'secondary' {
+    switch (status) {
+      case 'INSTOCK':
+        return 'success';
+      case 'LOWSTOCK':
+        return 'warn';
+      case 'OUTOFSTOCK':
+        return 'danger';
+    }
+    return 'secondary';
+  }
 }
