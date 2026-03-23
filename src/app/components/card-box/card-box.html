@@ -1,11 +1,10 @@
 <div class="product-card">
-  <div class="product-card__media">
-    <img class="product-card__img" [src]="item.imageUrl" [alt]="item.name" />
-
-    <p-tag
-      class="product-card__tag"
-      [value]="item.inventoryStatus"
-      [severity]="getSeverity(item.inventoryStatus)"
+  <div class="product-card__media ">
+    <!-- <img class="product-card__img" [src]="item.imageUrl" [alt]="item.name" /> -->
+    <img
+      class="product-card__img w-full rounded-t-xl bg-transparent"
+      [src]="item.imageUrl"
+      [alt]="item.name"
     />
   </div>
 
@@ -27,4 +26,3 @@
 
   <button type="button" class="product-card__order-btn">Add to Order</button>
 </div>
-  
