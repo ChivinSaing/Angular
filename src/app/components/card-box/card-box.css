@@ -81,4 +81,32 @@
   padding: 0;
   border-radius: 0.5rem;
 }
+/* Container to keep them in a row with spacing */
+.product-card__size-list {
+  display: flex;
+  gap: 8px; /* Space between S, M, and L */
+  align-items: center;
+}
+
+/* The actual circle design */
+.size-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Fixed width and height are key for a perfect circle */
+  width: 32px; 
+  height: 32px;
+  
+  background-color: #f1f1f1; /* Light gray background from your image */
+  color: #333;               /* Darker text color */
+  border-radius: 50%;        /* This makes it a circle */
+  
+  font-size: 14px;
+  font-weight: 600;
+  cursor: default;
+  
+  /* Optional: adds a very subtle shadow or border like the image */
+  border: 1px solid #e0e0e0; 
+}
   

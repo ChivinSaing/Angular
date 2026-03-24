@@ -6,6 +6,7 @@ export type CardBoxItem = {
   name: string;
   imageUrl: string;
   price: number;
+  size: string[];
   inventoryStatus: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK';
 };
 
@@ -19,6 +20,10 @@ export type CardBoxItem = {
 
 export class CardBox {
   @Input({ required: true }) item!: CardBoxItem;
+
+  AddbuttonClicked(){
+    console.log('Click is working');
+  }
 
   getSeverity(status: CardBoxItem['inventoryStatus']): 'success' | 'warn' | 'danger' | 'secondary' {
     switch (status) {

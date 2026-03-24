@@ -13,16 +13,14 @@
   <div class="product-card__footer">
     <span class="product-card__price">${{ item.price }}</span>
 
-    <span class="product-card__actions">
-      <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" aria-label="Add to favorites" />
-      <p-button
-        icon="pi pi-shopping-cart"
-        severity="secondary"
-        [outlined]="true"
-        aria-label="Add to cart"
-      />
-    </span>
+    <div class="product-card__size-list">
+      @for (size of item.size; track size) {
+        <span class="size-circle">
+          {{ size }}
+        </span>
+      }
+    </div>
   </div>
 
-  <button type="button" class="product-card__order-btn">Add to Order</button>
+  <button type="button" class="product-card__order-btn" (click)="AddbuttonClicked()">Add to Order</button>
 </div>
