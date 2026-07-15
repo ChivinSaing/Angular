@@ -1,0 +1,20 @@
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+  @for (card of highlights; track card.title) {
+    <div class="h-full min-w-0 w-full">
+      <p-card
+        [header]="card.title"
+        [style]="{ width: '100%' }"
+        styleClass="h-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm"
+      >
+        <ng-template pTemplate="header">
+          <img
+            class="h-48 w-full object-contain"
+            [src]="card.imageUrl"
+            [alt]="card.imageAlt"
+          />
+        </ng-template>
+        <p class="m-0 leading-relaxed text-slate-600">{{ card.body }}</p>
+      </p-card>
+    </div>
+  }
+</div>

@@ -6,7 +6,8 @@ import { TagModule } from 'primeng/tag';
 
 export type CarouselProduct = {
   name: string;
-  image: string;
+  /** Full image URL (menu drink photo or placeholder). */
+  imageUrl: string;
   price: number;
   inventoryStatus: 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK';
 };
@@ -19,6 +20,9 @@ export type CarouselProduct = {
   styleUrl: './carousel.css',
 })
 export class Carousel {
+  /** Drinks marked popular in the menu (empty hides meaningful content — parent may omit carousel). */
+  readonly products = input<CarouselProduct[]>([]);
+
   readonly autoplayInterval = input<number>(3000);
   readonly circular = input<boolean>(true);
   readonly numVisible = input<number>(2);
@@ -30,26 +34,6 @@ export class Carousel {
     { breakpoint: '767px', numVisible: 2, numScroll: 2 },
     { breakpoint: '575px', numVisible: 1, numScroll: 1 },
   ];
-
-  readonly products: CarouselProduct[] = [
-    { name: 'Lavender Latte', image: 'brown-purse.jpg', price: 5.75, inventoryStatus: 'INSTOCK' },
-    { name: 'Matcha Mint Tea', image: 'chakra-bracelet.jpg', price: 5.75, inventoryStatus: 'LOWSTOCK' },
-    { name: 'Smoothies', image: 'galaxy-earrings.jpg', price: 5.75, inventoryStatus: 'INSTOCK' },
-    { name: 'Black Watch', image: 'black-watch.jpg', price: 72, inventoryStatus: 'OUTOFSTOCK' },
-    { name: 'Galaxy Earrings', image: 'galaxy-earrings.jpg', price: 34, inventoryStatus: 'INSTOCK' },
-    { name: 'Game Controller', image: 'game-controller.jpg', price: 99, inventoryStatus: 'LOWSTOCK' },
-    { name: 'Bamboo Watch', image: 'bamboo-watch.jpg', price: 65, inventoryStatus: 'INSTOCK' },
-    { name: 'Blue Band', image: 'blue-band.jpg', price: 79, inventoryStatus: 'LOWSTOCK' },
-    { name: 'Blue T-Shirt', image: 'blue-t-shirt.jpg', price: 29, inventoryStatus: 'INSTOCK' },
-    
-  ];
-
-  private readonly productBaseUrl = 'https://primefaces.org/cdn/primeng/images/demo/product';
-  // https://primefaces.org/cdn/primeng/images/demo/product/blue-t-shirt.jpg
-
-  productImage(product: CarouselProduct): string {
-    return `${this.productBaseUrl}/${product.image}`;
-  }
 
   getSeverity(status: CarouselProduct['inventoryStatus']): 'success' | 'warn' | 'danger' | 'secondary' {
     switch (status) {

@@ -1,26 +1,50 @@
 <div class="product-card">
-  <div class="product-card__media ">
-    <!-- <img class="product-card__img" [src]="item.imageUrl" [alt]="item.name" /> -->
-    <img
-      class="product-card__img w-full rounded-t-xl bg-transparent"
-      [src]="item.imageUrl"
-      [alt]="item.name"
-    />
-  </div>
-
-  <div class="product-card__name">{{ item.name }}</div>
-
-  <div class="product-card__footer">
-    <span class="product-card__price">${{ item.price }}</span>
-
-    <div class="product-card__size-list">
-      @for (size of item.size; track size) {
-        <span class="size-circle">
-          {{ size }}
-        </span>
-      }
+  <div
+    class="product-card__detail-hitbox"
+    [class.cursor-pointer]="openDetail"
+    [attr.role]="openDetail ? 'link' : null"
+    [attr.tabindex]="openDetail ? 0 : null"
+    (click)="onCardAreaClick()"
+    (keydown.enter)="onCardAreaClick()"
+    (keydown.space)="$event.preventDefault(); onCardAreaClick()"
+  >
+    <div class="product-card__media">
+      <img
+        class="product-card__img w-full rounded-t-xl bg-transparent"
+        [src]="item.imageUrl"
+        [alt]="item.name"
+      />
+    </div>
+    <div class="p-3">
+      <div class="product-card__name">{{ item.name }}</div>
+  
+      <div class="product-card__footer">
+        <span class="product-card__price">${{ displayPrice }}</span>
+  
+        <div class="product-card__size-list">
+          @for (size of item.size; track size) {
+            <button
+              type="button"
+              class="size-circle hover:bg-green-500"
+              [class.ring-2]="isSizeSelected(size)"
+              [class.ring-green-600]="isSizeSelected(size)"
+              (click)="onSizeClick($event, size)"
+            >
+              {{ size }}
+            </button>
+          }
+        </div>
+      </div>
     </div>
   </div>
-
-  <button type="button" class="product-card__order-btn" (click)="AddbuttonClicked()">Add to Order</button>
+  <div class="text-center m-1.5 outline outline-green-500 hover:outline-green-400 hover:bg-green-400 hover:text-white p-1.5 rounded-2xl">
+    <button
+      type="button"
+      class=""
+      [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+      (click)="onAddClick($event)"
+    >
+      Add to Order
+    </button>
+  </div>
 </div>

@@ -1,7 +1,46 @@
-<section class="space-y-3">
-  <h1 class="text-3xl font-semibold tracking-tight">About</h1>
-  <p class="text-slate-600">
-    This is the About page. Add your description, mission, and story here.
-  </p>
+<section class="mt-6 grid gap-8 lg:grid-cols-2 lg:items-start">
+  <div class="min-w-0">
+    <h1 class="text-4xl font-semibold tracking-tight">About Us</h1>
+    <p class="py-4 text-xl text-slate-600">
+      Welcome to Drinks Shop, your go-to place for discovering and ordering your favorite
+      beverages anytime.
+    </p>
+  </div>
+  <div class="min-w-0">
+    <img
+      src="/images/images.png"
+      class="mx-auto w-full max-w-md object-contain"
+      alt="About Drinks Shop"
+    />
+  </div>
 </section>
 
+<section class="mt-10">
+  <h2 class="mb-4 text-lg font-semibold text-slate-900">Highlights</h2>
+  <app-card-box-about />
+</section>
+
+<section class="mt-10 flex justify-center items-center">
+  <div class="flex flex-col items-center justify-center p-8 text-center font-sans">
+    <h2 class="mb-4 text-3xl font-bold text-slate-800 md:text-4xl">
+      Discover Delicious Drinks
+    </h2>
+
+    <p class="max-w-2xl text-lg leading-relaxed text-slate-600">
+      We're here to provide you with a simple, fast, and enjoyable experience.
+      <br class="hidden md:block" />
+      Let us help you find your perfect drink!
+    </p>
+  </div>
+</section>
+
+<section class="mt-10">
+  @if (!loading() && !error() && popularDrinks().length === 0) {
+    <p class="text-sm text-slate-500">No drinks in the menu yet.</p>
+  }
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    @for (item of popularDrinks(); track item.id) {
+      <app-card-box [item]="item" />
+    }
+  </div>
+</section>

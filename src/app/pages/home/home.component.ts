@@ -1,179 +1,80 @@
-import { Component, signal } from '@angular/core';
-import { Carousel } from '../../components/carousel/carousel';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Carousel, type CarouselProduct } from '../../components/carousel/carousel';
 import { Category, type CategoryItem } from '../../components/category/category';
 import { CardBox, type CardBoxItem } from '../../components/card-box/card-box';
-
-
-
-type CartItem = {
-  name: string;
-  price: number;
-  qty: number;
-  size: string[];
-};
+import { OrderCartPanel } from '../../components/order-cart-panel/order-cart-panel';
+import { MenuService, type MenuApiDrink, type MenuApiResponse } from '../../core/menu.service';
 
 type CardBoxItemWithId = CardBoxItem & { id: number };
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Carousel, Category, CardBox],
+  imports: [Carousel, Category, CardBox, RouterLink, OrderCartPanel],
   templateUrl: './home.component.html'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private readonly menuService = inject(MenuService);
 
-  readonly categories: CategoryItem[] = [
-    { name: 'Coffee', bg: '#e5e7eb', color: '#0f172a', border: '#d1d5db' },
-    { name: 'Tea', bg: '#d1fae5', color: '#065f46', border: '#a7f3d0' },
-    { name: 'Smoothies', bg: '#e5e7eb', color: '#0f172a', border: '#d1d5db' },
-    { name: 'Bakery', bg: '#e5e7eb', color: '#0f172a', border: '#d1d5db' },
-    { name: 'Other', bg: '#e5e7eb', color: '#0f172a', border: '#d1d5db' },
-  ];
+  readonly menuLoading = signal(true);
+  readonly menuError = signal<string | null>(null);
+  private readonly menuData = signal<MenuApiResponse | null>(null);
 
-  readonly items: CardBoxItemWithId[] = [
-    {
-      id: 1,
-      name: 'Espresso',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S', 'M', 'L'],
-      imageUrl: 'https://ungroundedcoffee.com/image/cache/data/Products/Beverage/IcedAmericano-600x600-500x500.jpg',
-    },
-    {
-      id: 2,
-      name: 'Milk Tea',
-      price: 5.75,
-      inventoryStatus: 'LOWSTOCK',
-      size: ['M'],
-      imageUrl: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-    },
-    {
-      id: 3,
-      name: 'Smoothies',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['M', 'L'],
-      imageUrl: 'https://primefaces.org/cdn/primeng/images/demo/product/galaxy-earrings.jpg',
-    },
-    {
-      id: 4,
-      name: 'Black Watch',
-      price: 72,
-      inventoryStatus: 'OUTOFSTOCK',
-      size: ['S', 'L'],
-      imageUrl: 'https://media.istockphoto.com/id/1325991061/photo/matcha-latte-green-milk-foam-cup-on-wood-table-at-cafe-trendy-powered-tea-trend-from-japan.jpg?s=612x612&w=0&k=20&c=a7cV9mdPwPj93BrxoFrJXEdA71RsOnXIOzVF90CYPsQ=',
-    },
-  ];
-  readonly hotDrinks: CardBoxItemWithId[] = [
-    {
-      id: 1,
-      name: 'Lavender Latte',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['M'],
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrjyHlkViXf1t9FlpAnmlozT9DZSvPbFi-Lg&s',
-    },
-    {
-      id: 2,
-      name: 'Americano',
-      price: 5.75,
-      inventoryStatus: 'LOWSTOCK',
-      size: ['S', 'L'],
-      imageUrl: '/images/americano.png',
-    },
-    {
-      id: 3,
-      name: 'Cappuccino',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S','M', 'L'],
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAVt__A8bvTk9UbAp6N28awtRlQjJxssNuLA&s',
-    },
-    {
-      id: 4,
-      name: 'Caramel Macchiato',
-      price: 72,
-      inventoryStatus: 'OUTOFSTOCK',
-      size: ['S', 'M'],
-      imageUrl: 'https://thelittlestcrumb.com/wp-content/uploads/salted-caramel-macchiato-6.jpg',
-    },
-  ];
-  readonly iceDrinks: CardBoxItemWithId[] = [
-    {
-      id: 1,
-      name: 'Iced Americano',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S', 'M', 'L'],
-      imageUrl: 'https://ungroundedcoffee.com/image/cache/data/Products/Beverage/IcedAmericano-600x600-500x500.jpg',
-    },
-    {
-      id: 2,
-      name: 'Iced Latte',
-      price: 5.75,
-      inventoryStatus: 'LOWSTOCK',
-      size: ['M', 'L'],
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSANcWK53dWB_kChQU9l_etT4616mOkJYD_2A&s',
-    },
-    {
-      id: 3,
-      name: 'Iced Cappuccino',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S', 'M', 'L'],
-      imageUrl: 'https://grindthosebeans.com/wp-content/uploads/2024/10/Iced-Cappuccino-photo.png',
-    },
-    {
-      id: 4,
-      name: 'Iced Caramel Macchiato',
-      price: 72,
-      inventoryStatus: 'OUTOFSTOCK',
-      size: ['S', 'M'],
-      imageUrl: 'https://thelittlestcrumb.com/wp-content/uploads/salted-caramel-macchiato-6.jpg',
-    },
-  ];
-  readonly tea: CardBoxItemWithId[] = [
-    {
-      id: 1,
-      name: 'Iced Green Tea',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S', 'M', 'L'],
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKqzwxZXcDbHRjacc2QPG1FneKvGvdl9P0Fw&s',
-    },
-    {
-      id: 2,
-      name: 'Iced Lemon Tea',
-      price: 5.75,
-      inventoryStatus: 'LOWSTOCK',
-      size: ['S', 'M'],
-      imageUrl: 'https://static.vecteezy.com/system/resources/thumbnails/026/282/306/small/iced-lemon-tea-on-plastic-take-away-glass-isolated-on-white-background-with-copy-space-ai-generated-photo.jpg',
-    },
-    {
-      id: 3,
-      name: 'Iced Matcha Latte',
-      price: 5.75,
-      inventoryStatus: 'INSTOCK',
-      size: ['S', 'M', 'L'],
-      imageUrl: 'https://131462261.cdn6.editmysite.com/uploads/1/3/1/4/131462261/WSWIE42L25DRZK4UFOL7IMF6.jpeg',
-    },
-    {
-      id: 4,
-      name: 'Milk Tea',
-      price: 72,
-      inventoryStatus: 'OUTOFSTOCK',
-      size: ['S', 'M'],
-      imageUrl: 'https://ricelifefoodie.com/wp-content/uploads/2024/10/ice-cold-Hokkaido-Milk-Tea-with-boba-.jpg',
-    },
-  ];
+  readonly categories = computed((): CategoryItem[] => {
+    const data = this.menuData();
+    if (!data?.categories?.length) return [];
+    const palette: Array<{ bg: string; color: string; border: string }> = [
+      { bg: '#e5e7eb', color: '#0f172a', border: '#d1d5db' },
+      { bg: '#d1fae5', color: '#065f46', border: '#a7f3d0' },
+      { bg: '#ede9fe', color: '#5b21b6', border: '#ddd6fe' },
+      { bg: '#ffedd5', color: '#9a3412', border: '#fed7aa' },
+    ];
+    return data.categories.map((c, i) => ({
+      id: c.id,
+      name: c.name,
+      ...palette[i % palette.length],
+    }));
+  });
 
-  readonly cartItems: CartItem[] = [
-    { name: 'Lavender Latte', price: 5.75, qty: 2 , size: ['S', 'L']},
-    { name: 'Matcha Mint Tea', price: 5.75, qty: 1 , size: ['S', 'M']},
-    { name: 'Smoothies', price: 5.75, qty: 1 , size: ['S', 'M', 'L']},
-    { name: 'Smoothies', price: 5.75, qty: 1 , size: ['S', 'M']},
-    { name: 'Smoothies', price: 5.75, qty: 1 , size: ['S', 'M']},
-  ];
+  private static readonly PLACEHOLDER_IMG =
+    'https://images.unsplash.com/photo-1527169402691-a3fb6a6b8d6c?auto=format&fit=crop&w=600&q=60';
+
+  /** Top drinks by detail-page views (only drinks with at least one view). */
+  private static readonly POPULAR_CAROUSEL_MAX = 8;
+
+  readonly popularCarouselProducts = computed((): CarouselProduct[] => {
+    const data = this.menuData();
+    if (!data?.drinks?.length) return [];
+    const sorted = [...data.drinks]
+      .filter((d) => (d.view_count ?? 0) > 0)
+      .sort(
+        (a, b) =>
+          (b.view_count ?? 0) - (a.view_count ?? 0) ||
+          a.name.localeCompare(b.name),
+      );
+    return sorted.slice(0, HomeComponent.POPULAR_CAROUSEL_MAX).map((d) => ({
+      name: d.name,
+      imageUrl: d.image_url || HomeComponent.PLACEHOLDER_IMG,
+      price: typeof d.price === 'number' ? d.price : Number(d.price),
+      inventoryStatus:
+        d.stock_qty <= 0 ? 'OUTOFSTOCK' : d.stock_qty <= 5 ? 'LOWSTOCK' : 'INSTOCK',
+    }));
+  });
+
+  readonly drinkSections = computed(() => {
+    const data = this.menuData();
+    if (!data?.drinks?.length) {
+      return [] as { categoryId: number; title: string; items: CardBoxItemWithId[] }[];
+    }
+    const map = new Map<number, { categoryId: number; title: string; items: CardBoxItemWithId[] }>();
+    for (const d of data.drinks) {
+      const cid = d.category.id;
+      if (!map.has(cid)) map.set(cid, { categoryId: cid, title: d.category.name, items: [] });
+      map.get(cid)!.items.push(this.toCardItem(d));
+    }
+    return Array.from(map.values());
+  });
 
   readonly bannerSubtitle = 'Drink of the Day';
   readonly bannerTitle = 'Cardamom Cold Brew';
@@ -181,8 +82,30 @@ export class HomeComponent {
     'https://images.unsplash.com/photo-1527169402691-a3fb6a6b8d6c?auto=format&fit=crop&w=1600&q=60';
 
     
-  get totalPrice(): number {
-    return this.cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+  ngOnInit(): void {
+    this.menuService.getMenu().subscribe({
+      next: (data) => {
+        this.menuData.set(data);
+        this.menuError.set(null);
+        this.menuLoading.set(false);
+      },
+      error: () => {
+        this.menuError.set('Could not load menu from the server.');
+        this.menuLoading.set(false);
+      },
+    });
+  }
+
+  private toCardItem(d: MenuApiDrink): CardBoxItemWithId {
+    return {
+      id: d.id,
+      name: d.name,
+      price: typeof d.price === 'number' ? d.price : Number(d.price),
+      prices: d.prices,
+      inventoryStatus: d.stock_qty <= 0 ? 'OUTOFSTOCK' : d.stock_qty <= 5 ? 'LOWSTOCK' : 'INSTOCK',
+      size: (d.size ?? '').split(/[,/]/).map((s) => s.trim()).filter(Boolean),
+      imageUrl: d.image_url || 'https://images.unsplash.com/photo-1527169402691-a3fb6a6b8d6c?auto=format&fit=crop&w=600&q=60',
+    };
   }
 }
 

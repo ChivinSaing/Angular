@@ -1,0 +1,36 @@
+<div class="mx-auto flex gap-4">
+  <section class="mx-auto max-w-6xl px-4 py-6">
+    <div class="mb-6 flex flex-wrap items-center gap-3">
+      <a
+        routerLink="/home"
+        class="text-sm font-medium text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+      >
+        ← Back to menu
+      </a>
+    </div>
+  
+    @if (loading()) {
+      <p class="text-sm text-slate-500">Loading…</p>
+    } @else if (error(); as err) {
+      <p class="text-sm text-red-600" role="alert">{{ err }}</p>
+    } @else {
+      <h1 class="text-2xl font-bold text-slate-900">
+        {{ categoryTitle() || 'Category' }}
+      </h1>
+      <p class="mt-1 text-sm text-slate-600">Drinks in this category</p>
+  
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @for (item of items(); track item.id) {
+          <app-card-box [item]="item"></app-card-box>
+        }
+      </div>
+  
+      @if (!items().length && !error()) {
+        <p class="mt-6 text-sm text-slate-500">No drinks in this category yet.</p>
+      }
+    }
+  </section>
+  <section>
+    <app-order-cart-panel />
+  </section>
+</div>

@@ -1,6 +1,6 @@
 <div class="carousel-wrap">
   <p-carousel
-    [value]="products"
+    [value]="products()"
     [numVisible]="numVisible()"
     [numScroll]="numVisible()"
     [circular]="circular()"
@@ -14,20 +14,15 @@
         <div class="product-card__media">
           <img
             class="product-card__img w-full"
-            [src]="productImage(product)"
+            [src]="product.imageUrl"
             [alt]="product.name"
-          />
-          <p-tag
-            class="product-card__tag"
-            [value]="product.inventoryStatus"
-            [severity]="getSeverity(product.inventoryStatus)"
           />
         </div>
 
         <div class="product-card__name">{{ product.name }}</div>
 
         <div class="product-card__footer">
-          <span class="product-card__price">${{ product.price }}</span>
+          <!-- <span class="product-card__price">${{ product.price }}</span> -->
           <span class="product-card__actions">
             <p-button
               icon="pi pi-heart"

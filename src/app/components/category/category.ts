@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 export type CategoryItem = {
+  id: number;
   name: string;
   bg: string;
   color: string;
@@ -10,6 +12,7 @@ export type CategoryItem = {
 @Component({
   selector: 'app-category',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './category.html',
   styleUrl: './category.css',
 })

@@ -1,6 +1,6 @@
 .product-card {
   padding: 0px !important;
-  border: 1px solid rgb(226 232 240);
+  border: 2px solid rgb(226 232 240);
   border-radius: 0.75rem;
   background: transparent;
   overflow: hidden;
@@ -62,8 +62,8 @@
   margin-top: 0.55rem;
   border-radius: 9999px;
   border: none;
-  background: rgb(15 23 42);
-  color: #fff;
+  /* background: rgb(15 23 42); */
+  /* color: #fff; */
   font-weight: 600;
   font-size: 0.75rem;
   padding: 0.5rem 0.75rem;
